@@ -1,22 +1,13 @@
-const CACHE_NAME = "jo-todo-offline-v1";
-
-function u(path) {
-  return new URL(path, self.location).toString();
-}
+const CACHE_NAME = "jo-todo-cache-v4";
 
 const ASSETS = [
-  u("./"),
-  u("./index.html"),
-  u("./style.css"),
-  u("./script.js"),
-  u("./manifest.webmanifest"),
-
-  // ไอคอน (ใส่เท่าที่มีจริงในโฟลเดอร์)
-  u("./icons/icon-192.png"),
-  u("./icons/icon-512.png"),
-  u("./icons/icon-180.png"),
-  u("./icons/icon-167.png"),
-  u("./icons/icon-152.png"),
+  "./",
+  "./index.html",
+  "./style.css",
+  "./script.js",
+  "./manifest.webmanifest",
+  "./icons/icon-192.png",
+  "./icons/icon-512.png"
 ];
 
 self.addEventListener("install", (event) => {
@@ -38,16 +29,28 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
-  // ✅ Navigation fallback: ออฟไลน์แล้วเปิดแอป ให้กลับไป index.html
+  const url = new URL(event.request.url);
+  if (url.origin !== location.origin) return;
+
+  // ✅ ถ้าเป็นการเปิดหน้าเว็บ/เปลี่ยนหน้า ให้คืน index จาก cache เพื่อกัน 404 + ออฟไลน์
   if (event.request.mode === "navigate") {
     event.respondWith(
-      caches.match(u("./index.html")).then((cached) => cached || fetch(event.request))
+      caches.match("./index.html").then((cached) => cached || fetch(event.request))
     );
     return;
   }
 
-  // ✅ Cache first สำหรับไฟล์ในแอป
+  // ✅ ไฟล์อื่น ๆ ใช้ cache-first
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
+    caches.match(event.request).then((cached) => {
+      return (
+        cached ||
+        fetch(event.request).then((res) => {
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          return res;
+        })
+      );
+    })
   );
 });
