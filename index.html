@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>To-Do List ของโจ</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png">
+<meta name="theme-color" content="#10b981">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+
+<body>
+  <!-- ปุ่มโหมด (ลอยขวาบน + ติดหน้าจอ) -->
+  <button id="themeBtn" class="fab" type="button" aria-label="สลับโหมด">🌙</button>
+
+  <div class="app">
+    <h1>📝 To-Do List</h1>
+
+    <form id="todoForm" class="inputRow">
+      <input id="todoInput" type="text" placeholder="พิมพ์งานที่ต้องทำ..." autocomplete="off" />
+      <input id="dueInput" type="date" />
+      <button type="submit">เพิ่ม</button>
+    </form>
+
+    <div class="toolbar">
+      <span id="countText">0 รายการ</span>
+      <button id="clearDoneBtn" type="button">ลบที่ทำเสร็จ</button>
+      <button id="clearAllBtn" type="button">ลบทั้งหมด</button>
+    </div>
+
+    <div class="tabs">
+      <button id="tabAll" class="tab active" type="button">ทั้งหมด</button>
+      <button id="tabTodo" class="tab" type="button">ยังไม่ทำ</button>
+      <button id="tabDone" class="tab" type="button">ทำแล้ว</button>
+    </div>
+
+    <div class="progressWrap">
+      <div class="progressTop">
+        <span id="progressText">0%</span>
+        <span id="progressDetail">เสร็จ 0 / 0</span>
+      </div>
+      <div class="progressBar">
+        <div id="progressFill" class="progressFill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <p class="hint">ลากรายการเพื่อเรียงลำดับได้ ✅</p>
+
+    <div id="emptyState" class="empty hidden">
+      <div class="emptyIcon">✅</div>
+      <div class="emptyTitle">ยังไม่มีงานในรายการ</div>
+      <div class="emptySub">เพิ่มงานใหม่ด้วยช่องด้านบน หรือกดปุ่ม + มุมขวาล่าง</div>
+
+      <div class="skeleton">
+        <div class="sk"></div>
+        <div class="sk"></div>
+        <div class="sk"></div>
+      </div>
+    </div>
+
+    <ul id="todoList" class="list"></ul>
+  </div>
+
+  <!-- Toast (ใช้ได้ทั้ง undo + confirm) -->
+  <div id="toast" class="toast hidden" role="status" aria-live="polite">
+    <span id="toastMsg">แจ้งเตือน</span>
+
+    <div class="toastActions">
+      <button id="toastCancelBtn" class="btnGhost hidden" type="button">ยกเลิก</button>
+      <button id="toastOkBtn" class="btnAccent hidden" type="button">ยืนยัน</button>
+      <button id="undoBtn" class="btnAccent hidden" type="button">ย้อนกลับ</button>
+    </div>
+  </div>
+
+  <button id="fabAdd" class="fabAdd" type="button" aria-label="เพิ่มงาน">＋</button>
+
+  <script src="script.js"></script>
+    <script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./service-worker.js");
+    });
+  }
+</script>
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./service-worker.js").then((reg) => {
+
+      // ถ้ามี service worker ใหม่
+      reg.addEventListener("updatefound", () => {
+        const newWorker = reg.installing;
+
+        newWorker.addEventListener("statechange", () => {
+          if (newWorker.state === "activated") {
+            // 🔥 รีโหลดอัตโนมัติเมื่อมีเวอร์ชันใหม่
+            window.location.reload();
+          }
+        });
+      });
+    });
+  }
+</script>
+</body>
+</html>

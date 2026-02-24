@@ -1,0 +1,414 @@
+:root{
+  --bg: #0f1115;
+  --panel: rgba(23,26,33,0.78);
+  --border: rgba(255,255,255,0.10);
+  --text: #e7eaf0;
+  --muted: rgba(231,234,240,0.75);
+
+  --surface: rgba(18,20,26,0.72);
+  --surface-hover: rgba(18,20,26,0.90);
+  --soft: rgba(255,255,255,0.06);
+  --soft-2: rgba(255,255,255,0.03);
+  --soft-3: rgba(255,255,255,0.08);
+
+  --input-bg: rgba(18,20,26,0.75);
+
+  --accent: #00ffcc;
+  --accent-soft: rgba(0,255,204,0.18);
+  --accent-border: rgba(0,255,204,0.30);
+
+  --danger: #ff5d5d;
+  --danger-soft: rgba(255,93,93,0.14);
+  --danger-border: rgba(255,93,93,0.22);
+
+  --progress-grad: linear-gradient(90deg, rgba(0,255,204,0.95), rgba(0,255,204,0.35));
+  --shadow: 0 18px 45px rgba(0,0,0,.35);
+}
+
+body.light{
+  --bg: #f4f6f8;
+  --panel: rgba(255,255,255,0.92);
+  --border: rgba(0,0,0,0.10);
+  --text: #0f172a;
+  --muted: rgba(15,23,42,0.70);
+
+  --surface: #ffffff;
+  --surface-hover: #f7f8fa;
+  --soft: rgba(0,0,0,0.04);
+  --soft-2: rgba(0,0,0,0.03);
+  --soft-3: rgba(0,0,0,0.06);
+
+  --input-bg: #ffffff;
+
+  --accent: #10b981;
+  --accent-soft: rgba(16,185,129,0.18);
+  --accent-border: rgba(16,185,129,0.30);
+
+  --danger: #ef4444;
+  --danger-soft: rgba(239,68,68,0.14);
+  --danger-border: rgba(239,68,68,0.22);
+
+  --progress-grad: linear-gradient(90deg, rgba(16,185,129,0.95), rgba(16,185,129,0.35));
+  --shadow: 0 18px 45px rgba(0,0,0,.08);
+}
+
+*{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+    min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 20% -10%, rgba(0,255,204,.18), transparent 60%),
+    radial-gradient(900px 500px at 80% 0%, rgba(255,93,93,.10), transparent 55%),
+    var(--bg);
+}
+
+body.light{
+  background:
+    radial-gradient(1200px 600px at 20% -10%, rgba(16,185,129,.16), transparent 60%),
+    radial-gradient(900px 500px at 80% 0%, rgba(59,130,246,.08), transparent 55%),
+    var(--bg);
+}
+
+.fab{
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  transition: transform .15s, filter .2s;
+}
+.fab:hover{ transform: scale(1.05); filter: brightness(1.02); }
+
+.app{
+  width: 660px;
+  max-width: 92%;
+  margin: 40px auto;
+  padding: 24px;
+  border-radius: 18px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+h1{ margin: 0 0 16px; }
+
+.inputRow{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+input{
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  color: var(--text);
+  outline: none;
+}
+#todoInput{ flex: 1; }
+#dueInput{ width: 160px; }
+
+button{
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--soft);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform .15s, filter .2s, background .2s;
+}
+button:hover{
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+}
+
+body:not(.light) input[type="date"]::-webkit-calendar-picker-indicator{
+  filter: invert(1);
+}
+
+.toolbar{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+#countText{
+  margin-right: auto;
+  opacity: 0.85;
+  color: var(--muted);
+}
+#clearAllBtn{
+  background: var(--danger-soft);
+  border-color: var(--danger-border);
+}
+
+.tabs{
+  display: flex;
+  gap: 10px;
+  margin: 10px 0 10px;
+}
+.tab{ background: var(--soft); }
+.tab.active{
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+}
+
+.progressWrap{
+  margin: 10px 0 14px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--soft-2);
+}
+.progressTop{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: var(--muted);
+}
+#progressText{ font-weight: 700; color: var(--text); }
+.progressBar{
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--soft-3);
+  border: 1px solid var(--border);
+}
+.progressFill{
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: var(--progress-grad);
+  transition: width .25s ease;
+}
+
+.hint{
+  margin: 0 0 12px;
+  opacity: 0.7;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.list{ list-style: none; padding: 0; margin: 0; }
+
+.item{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: transform .2s, opacity .2s, background .2s;
+}
+.item:hover{ background: var(--surface-hover); }
+.item.enter{ opacity: 0; transform: translateY(-8px); }
+.item.removing{ opacity: 0; transform: translateY(8px); }
+.item.dragging{ opacity: 0.6; transform: scale(0.98); }
+
+.item .text{ flex: 1; word-break: break-word; }
+.item.done .text{ text-decoration: line-through; opacity: 0.6; }
+
+.badge{
+  font-size: 12px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  opacity: 0.95;
+  white-space: nowrap;
+}
+.badge.today{ background: rgba(255,255,0,0.12); }
+.badge.tomorrow{ background: rgba(59,130,246,0.12); }
+.badge.overdue{ background: var(--danger-soft); border-color: var(--danger-border); }
+.badge.none{ opacity: 0.65; }
+
+.item .deleteBtn{
+  background: var(--danger-soft);
+  border-color: var(--danger-border);
+}
+
+.hidden{ display: none; }
+
+.empty{
+  border: 1px solid var(--border);
+  background: var(--soft-2);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 12px;
+}
+.emptyIcon{
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  margin-bottom: 10px;
+}
+.emptyTitle{ font-weight: 700; margin-bottom: 6px; }
+.emptySub{
+  opacity: 0.75;
+  font-size: 14px;
+  margin-bottom: 14px;
+  color: var(--muted);
+}
+.skeleton{ display: grid; gap: 10px; }
+.sk{
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: linear-gradient(90deg, var(--soft-2), var(--soft-3), var(--soft-2));
+  background-size: 220% 100%;
+  animation: shimmer 1.2s infinite;
+}
+@keyframes shimmer{
+  0%{ background-position: 0% 0%; }
+  100%{ background-position: 200% 0%; }
+}
+
+/* ===== Toast แบบมือถือ ===== */
+.toast{
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  width: min(640px, calc(100% - 24px));
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 12px 14px;
+  border-radius: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  z-index: 999;
+  box-shadow: 0 10px 30px rgba(0,0,0,.20);
+}
+
+.toastActions{
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.btnGhost{
+  background: var(--soft);
+}
+
+.btnAccent{
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+}
+
+/* FAB (+) */
+.fabAdd{
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  z-index: 999;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  line-height: 1;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-soft);
+  color: var(--text);
+  box-shadow: 0 16px 35px rgba(0,0,0,.18);
+}
+.fabAdd:hover{ transform: scale(1.06); }
+
+@media (max-width: 520px){
+  .inputRow{ flex-wrap: wrap; }
+  #dueInput{ width: 100%; }
+}
+.hidden { display: none !important; }
+/* ✅ iOS บางทีไม่โชว์ไอคอน date picker → เราใส่ไอคอนเอง */
+
+input[type="date"]{
+  padding-right: 44px; /* เผื่อที่ให้ไอคอน */
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 18px 18px;
+}
+
+/* ไอคอนสีเข้มสำหรับโหมดสว่าง */
+body.light input[type="date"]{
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%230f172a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
+}
+
+/* ไอคอนสีขาวสำหรับโหมดมืด */
+body:not(.light) input[type="date"]{
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
+}
+
+/* (ออปชั่น) บาง iOS ซ่อน indicator เดิมไว้ให้สวยขึ้น */
+input[type="date"]::-webkit-calendar-picker-indicator{
+  opacity: 0; /* ซ่อนไอคอนของระบบ (ถ้ามันมี) */
+}
+/* ===== Floating Add Button ===== */
+.fab{
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  font-size: 28px;
+  border: none;
+  background: #4ade80;
+  color: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  z-index: 50;
+  transition: 0.3s;
+}
+
+/* ===== Confirm Bar ===== */
+.confirm-bar{
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20px;
+  width: 90%;
+  max-width: 500px;
+  z-index: 100; /* สูงกว่า FAB */
+}
+
+/* 👇 ตอนมี confirm bar → ขยับปุ่ม + ขึ้น */
+body.show-confirm .fab{
+  bottom: 110px;
+}
+/* ให้ toast อยู่เหนือปุ่ม + */
+.toast{
+  z-index: 1000;
+}
+
+/* ปุ่ม + อยู่ต่ำกว่า toast */
+.fabAdd{
+  z-index: 50;
+}
+
+/* เวลา toast โผล่ → ขยับปุ่ม + ขึ้น (กันทับปุ่มยืนยัน) */
+body.show-confirm .fabAdd{
+  bottom: 110px; /* ปรับได้: 100-130 แล้วแต่ความสูง toast */
+}
